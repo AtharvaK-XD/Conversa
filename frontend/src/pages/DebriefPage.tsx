@@ -16,7 +16,7 @@ export const DebriefPage: React.FC = () => {
   // Redirect if no active debrief is loaded
   useEffect(() => {
     if (!currentDebrief) {
-      navigate('/');
+      navigate('/select');
     }
   }, [currentDebrief, navigate]);
 
@@ -46,7 +46,7 @@ export const DebriefPage: React.FC = () => {
 
   const handleBackToScenarios = () => {
     resetSession();
-    navigate('/');
+    navigate('/select');
   };
 
   const getScoreColor = (score: number) => {

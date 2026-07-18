@@ -44,7 +44,7 @@ export const HistoryPage: React.FC = () => {
           </div>
           
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/select')}
             className="font-mono text-xs uppercase tracking-wider px-3.5 py-2.5 rounded border border-white/10 hover:border-white/20 text-white/70 hover:text-white transition-all duration-200 flex items-center gap-1.5 cyber-button-clip"
           >
             <ArrowLeft className="w-4 h-4" />

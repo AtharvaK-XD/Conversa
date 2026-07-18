@@ -15,7 +15,7 @@ export const ChatPage: React.FC = () => {
   // If page is loaded directly without selecting a scenario, fallback to selection
   useEffect(() => {
     if (!currentScenario) {
-      navigate('/');
+      navigate('/select');
     } else {
       startSession();
     }
@@ -26,7 +26,7 @@ export const ChatPage: React.FC = () => {
   const handleAbort = () => {
     if (confirm("Are you sure you want to abort the current immersion session? Your progress won't be saved.")) {
       resetSession();
-      navigate('/');
+      navigate('/select');
     }
   };
 
