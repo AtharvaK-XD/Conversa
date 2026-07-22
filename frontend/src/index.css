@@ -1,133 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
-@theme {
-  --color-cyber-bg: #0a0a0d;
-  --color-cyber-panel: #111115;
-  --color-cyber-card: #16161f;
-  --color-neon-cyan: #00f0ff;
-  --color-neon-magenta: #ff007f;
-  --color-neon-green: #39ff14;
-  --color-neon-amber: #ffaa00;
-  --color-terminal-green: #00ff66;
-  
-  --font-mono: "Share Tech Mono", "Fira Code", monospace;
-  --font-sans: "Inter", system-ui, sans-serif;
-}
-
-/* Animations */
-@keyframes scanline {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100%);
+@layer utilities {
+  .font-brand {
+    font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   }
 }
 
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(0, 240, 255, 0.4), inset 0 0 5px rgba(0, 240, 255, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(0, 240, 255, 0.8), inset 0 0 12px rgba(0, 240, 255, 0.4);
-  }
+/* Custom Design Tokens & Clean Utilities */
+:root {
+  --canvas-bg: #FFFFFF;
+  --panel-bg: #FFFFFF;
+  --border-light: #E5E4E0;
+  --text-main: #1a1d29;
+  --text-muted: #6B6A66;
+  --brand-orange: #F4602A;
 }
 
-@keyframes typing-dot {
-  0%, 100% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes blink-cursor {
-  50% {
-    opacity: 0;
-  }
-}
-
-/* Utility classes and bases */
 body {
-  background-color: var(--color-cyber-bg);
-  color: #e2e8f0;
-  font-family: var(--font-sans);
-  background-image: 
-    radial-gradient(circle at 50% 20%, rgba(20, 20, 30, 0.4) 0%, transparent 80%),
-    linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
-  background-size: auto, 40px 40px, 40px 40px;
-  overflow-x: hidden;
+  background-color: #FFFFFF;
+  color: #1a1d29;
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Neon Glows */
-.glow-cyan {
-  text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+/* Linear-style smooth hover card elevation */
+.linear-card {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.glow-magenta {
-  text-shadow: 0 0 8px rgba(255, 0, 127, 0.6);
-}
-
-.glow-green {
-  text-shadow: 0 0 8px rgba(57, 255, 20, 0.6);
-}
-
-.border-glow-cyan {
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
-  border-color: rgba(0, 240, 255, 0.5);
-}
-
-.border-glow-magenta {
-  box-shadow: 0 0 10px rgba(255, 0, 127, 0.25);
-  border-color: rgba(255, 0, 127, 0.5);
-}
-
-.animate-pulse-cyan {
-  animation: pulse-glow 2s infinite ease-in-out;
-}
-
-.blink-cursor {
-  animation: blink-cursor 1s step-end infinite;
-}
-
-/* Scanline overlay for screen */
-.scanlines::after {
-  content: " ";
-  display: block;
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 255, 0, 0.06));
-  z-index: 20;
-  background-size: 100% 4px, 6px 100%;
-  pointer-events: none;
-}
-
-/* Custom Scrollbars */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-cyber-bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: #2e2e38;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-neon-cyan);
-}
-
-.cyber-panel-clip {
-  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-}
-
-.cyber-button-clip {
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+.linear-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.05);
 }

@@ -17,22 +17,22 @@ export const MicButton: React.FC = () => {
   const getButtonContent = () => {
     switch (recordingState) {
       case 'listening':
-        return <Square className="w-6 h-6 text-black fill-black" />;
+        return <Square className="w-6 h-6 text-white fill-white" />;
       case 'processing':
-        return <Loader2 className="w-6 h-6 text-neon-cyan animate-spin" />;
+        return <Loader2 className="w-6 h-6 text-[#F4602A] animate-spin" />;
       default:
-        return <Mic className="w-6 h-6 text-black" />;
+        return <Mic className="w-6 h-6 text-white" />;
     }
   };
 
   const getButtonClass = () => {
     if (recordingState === 'listening') {
-      return 'bg-red-500 hover:bg-red-600 border-red-400 shadow-[0_0_20px_rgba(239,68,68,0.5)]';
+      return 'bg-red-500 hover:bg-red-600 border-red-400 shadow-sm';
     }
     if (recordingState === 'processing') {
-      return 'bg-cyber-panel border-neon-cyan/40 cursor-wait';
+      return 'bg-white border-orange-200 text-[#F4602A] cursor-wait shadow-xs';
     }
-    return 'bg-neon-cyan hover:bg-cyan-400 border-cyan-300 shadow-[0_0_15px_rgba(0,240,255,0.3)]';
+    return 'bg-[#F4602A] hover:bg-[#d95222] border-[#F4602A] shadow-sm';
   };
 
   return (
@@ -43,7 +43,7 @@ export const MicButton: React.FC = () => {
           Array.from({ length: 15 }).map((_, i) => (
             <motion.div
               key={i}
-              className="w-1 bg-gradient-to-t from-neon-cyan to-blue-500 rounded-full"
+              className="w-1 bg-[#F4602A] rounded-full"
               initial={{ height: 4 }}
               animate={{
                 height: [4, Math.random() * 32 + 8, 4]
@@ -56,34 +56,24 @@ export const MicButton: React.FC = () => {
             />
           ))
         ) : recordingState === 'processing' ? (
-          <span className="font-mono text-xs text-neon-cyan/70 tracking-widest uppercase animate-pulse">
+          <span className="font-mono text-xs text-[#F4602A] tracking-widest uppercase animate-pulse font-semibold">
             Processing voice print...
           </span>
         ) : (
-          <span className="font-mono text-xs text-white/40 tracking-wider uppercase">
-            Click mic to speak
+          <span className="font-mono text-xs text-zinc-400 font-medium">
+            Tap mic to speak
           </span>
         )}
       </div>
 
-      {/* Main Trigger Button */}
-      <div className="relative">
-        {/* Pulsing ring around button */}
-        {recordingState === 'listening' && (
-          <div className="absolute inset-0 rounded-full bg-red-500/20 animate-ping pointer-events-none scale-125" />
-        )}
-        {recordingState === 'idle' && (
-          <div className="absolute inset-0 rounded-full bg-neon-cyan/10 hover:bg-neon-cyan/20 animate-pulse pointer-events-none scale-110" />
-        )}
-
-        <button
-          onClick={handlePress}
-          disabled={recordingState === 'processing'}
-          className={`w-16 h-16 rounded-full border flex items-center justify-center transition-all duration-300 transform active:scale-95 ${getButtonClass()}`}
-        >
-          {getButtonContent()}
-        </button>
-      </div>
+      {/* Main Mic Push-to-Talk Trigger */}
+      <button
+        onClick={handlePress}
+        disabled={recordingState === 'processing'}
+        className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer shadow-md hover:scale-105 active:scale-95 ${getButtonClass()}`}
+      >
+        {getButtonContent()}
+      </button>
     </div>
   );
 };

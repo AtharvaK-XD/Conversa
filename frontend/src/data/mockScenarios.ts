@@ -12,7 +12,7 @@ export const mockScenarios: Scenario[] = [
       name: 'Karan Bhai',
       role: 'Chai Vendor',
       location: 'Ahmedabad, Gujarat',
-      avatarUrl: '',
+      avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
       avatarSeed: 'karan',
       bio: 'A friendly but extremely busy chai vendor near Lal Darwaja, known for his ginger-cardamom cutting chai.'
     },
@@ -29,7 +29,7 @@ export const mockScenarios: Scenario[] = [
       name: 'Ramesh Lal',
       role: 'Shopkeeper',
       location: 'Colaba Causeway, Mumbai',
-      avatarUrl: '',
+      avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
       avatarSeed: 'ramesh',
       bio: 'A veteran handicraft and clothing vendor who is a tough negotiator but loves a good bargaining conversation.'
     },
@@ -46,7 +46,7 @@ export const mockScenarios: Scenario[] = [
       name: 'Shruti Hegde',
       role: 'Technical Lead',
       location: 'Indiranagar, Bengaluru',
-      avatarUrl: '',
+      avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
       avatarSeed: 'shruti',
       bio: 'A sharp, no-nonsense Engineering Manager at a top AI startup, interviewing you for a Senior Software Engineer position.'
     },
@@ -63,7 +63,7 @@ export const mockScenarios: Scenario[] = [
       name: 'Babubhai',
       role: 'Auto Driver',
       location: 'Vadodara Station, Gujarat',
-      avatarUrl: '',
+      avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80',
       avatarSeed: 'babubhai',
       bio: 'A senior auto-rickshaw driver who has been navigating the streets of Vadodara for 35 years and loves sharing historical stories.'
     },
@@ -218,7 +218,7 @@ export const mockDebriefs: Record<string, Omit<DebriefSession, 'id' | 'scenarioI
     mistakes: [
       {
         id: 'c1',
-        originalText: 'एक आदूवाળી ચા આપો ને (Gujarati)',
+        originalText: 'एक आदूવાળી ચા આપો ને (Gujarati)',
         correctedText: 'એક આદુવાળી ચા આપો ને',
         explanation: 'Correct spelling in Gujarati is "આદુવાળી" (Ginger). Your pronunciation was close, but make sure to emphasize the dental "d".',
         pronunciation: 'Aaduvaali chaa aapo ne'
@@ -259,7 +259,7 @@ export const mockDebriefs: Record<string, Omit<DebriefSession, 'id' | 'scenarioI
         word: 'મસ્કા બન (Maska Bun)',
         translation: 'Buttered Bun',
         partOfSpeech: 'Noun',
-        exampleSentence: 'ગરમ ચાય સાથે મોટો मस्का बन खाओ।',
+        exampleSentence: 'ગરમ ચાય સાથે મોટો मस्કા बन खाओ।',
         exampleTranslation: 'Eat a large buttered bun with hot tea.'
       },
       {

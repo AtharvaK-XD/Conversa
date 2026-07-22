@@ -12,19 +12,19 @@ export const ChatThread: React.FC = () => {
   }, [messages, isTyping]);
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-6 flex flex-col gap-6 scrollbar-thin">
+    <div className="flex-1 overflow-y-auto px-4 py-6 flex flex-col gap-6 scrollbar-thin bg-[#FAFAFA]">
       
       {/* Starting context prompt guideline */}
       {currentScenario && (
-        <div className="mx-auto max-w-lg bg-cyber-panel border border-white/5 rounded-lg p-4 text-center">
-          <h3 className="font-mono text-xs uppercase tracking-wider text-neon-cyan mb-1.5">Mission Guideline</h3>
-          <p className="font-sans text-sm text-white/70 leading-relaxed">
+        <div className="mx-auto max-w-lg bg-white border border-[#E4E4E7] rounded-2xl p-4 text-center shadow-xs">
+          <h3 className="font-mono text-xs uppercase tracking-wider text-zinc-900 font-bold mb-1.5">Mission Guideline</h3>
+          <p className="font-sans text-sm text-zinc-600 leading-relaxed">
             {currentScenario.promptGuideline}
           </p>
-          <div className="mt-3 flex items-center justify-center gap-2 font-mono text-[10px] text-white/40">
+          <div className="mt-3 flex items-center justify-center gap-2 font-mono text-[10px] text-zinc-400">
             <span>IMMERSION ACTIVE</span>
             <span>•</span>
-            <span className="text-neon-cyan">PERSONA NEVER BREAKS CHARACTER</span>
+            <span className="text-zinc-900 font-semibold">PERSONA NEVER BREAKS CHARACTER</span>
           </div>
         </div>
       )}
