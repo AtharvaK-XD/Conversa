@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   History, 
   Globe, 
-  Shield, 
   Activity, 
   Play, 
   MessageSquare,
@@ -18,7 +17,16 @@ import {
   Car,
   UserCheck,
   Sparkles,
-  MapPin
+  MapPin,
+  ChevronDown,
+  ChevronRight,
+  LogOut,
+  LayoutDashboard,
+  BarChart3,
+  Languages,
+  Mic,
+  Sliders,
+  Menu
 } from 'lucide-react';
 
 export const ScenarioSelectPage: React.FC = () => {
@@ -31,6 +39,14 @@ export const ScenarioSelectPage: React.FC = () => {
   );
   const [activeLanguage, setActiveLanguage] = useState<TargetLanguage>('English');
   const [activeProficiency, setActiveProficiency] = useState<string>('Intermediate');
+
+  // Sidebar Feature Dropdown Toggle States
+  const [openLanguagesDropdown, setOpenLanguagesDropdown] = useState(true);
+  const [openPersonasDropdown, setOpenPersonasDropdown] = useState(false);
+  const [openToolsDropdown, setOpenToolsDropdown] = useState(false);
+
+  // Mobile Sidebar Drawer state
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const handleCardClick = (sc: Scenario) => {
     if (!sc) return;
@@ -46,20 +62,18 @@ export const ScenarioSelectPage: React.FC = () => {
     navigate('/chat');
   };
 
-  const handleLaunch = handleStartSession;
-
   const getScenarioIcon = (id: string) => {
     switch (id) {
       case 'chai-stall':
-        return <Coffee className="w-5 h-5 text-[#F4602A]" />;
+        return <Coffee className="w-5 h-5 text-blue-600" />;
       case 'market-haggling':
-        return <ShoppingBag className="w-5 h-5 text-[#F4602A]" />;
+        return <ShoppingBag className="w-5 h-5 text-blue-600" />;
       case 'job-interview':
-        return <Briefcase className="w-5 h-5 text-[#F4602A]" />;
+        return <Briefcase className="w-5 h-5 text-blue-600" />;
       case 'rickshaw-ride':
-        return <Car className="w-5 h-5 text-[#F4602A]" />;
+        return <Car className="w-5 h-5 text-blue-600" />;
       default:
-        return <MessageSquare className="w-5 h-5 text-[#F4602A]" />;
+        return <MessageSquare className="w-5 h-5 text-blue-600" />;
     }
   };
 
@@ -67,21 +81,21 @@ export const ScenarioSelectPage: React.FC = () => {
     switch (diff) {
       case 'Easy':
         return (
-          <span className="text-emerald-800 text-xs font-semibold bg-emerald-50/90 border border-emerald-200/80 px-2.5 py-0.5 rounded-md flex items-center gap-1.5 shadow-2xs">
+          <span className="text-emerald-800 text-xs font-semibold bg-emerald-50/90 border border-emerald-200/80 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 shadow-2xs">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
             Easy
           </span>
         );
       case 'Medium':
         return (
-          <span className="text-amber-800 text-xs font-semibold bg-amber-50/90 border border-amber-200/80 px-2.5 py-0.5 rounded-md flex items-center gap-1.5 shadow-2xs">
+          <span className="text-amber-800 text-xs font-semibold bg-amber-50/90 border border-amber-200/80 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 shadow-2xs">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-600" />
             Medium
           </span>
         );
       case 'Hard':
         return (
-          <span className="text-rose-800 text-xs font-semibold bg-rose-50/90 border border-rose-200/80 px-2.5 py-0.5 rounded-md flex items-center gap-1.5 shadow-2xs">
+          <span className="text-rose-800 text-xs font-semibold bg-rose-50/90 border border-rose-200/80 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 shadow-2xs">
             <span className="w-1.5 h-1.5 rounded-full bg-rose-600" />
             Hard
           </span>
@@ -91,341 +105,430 @@ export const ScenarioSelectPage: React.FC = () => {
     }
   };
 
-  return (
-    <PageTransition>
-      <div className="w-full max-w-7xl mx-auto px-6 py-10 flex flex-col gap-10 flex-grow min-h-screen text-[#18181B] relative">
+  // Reusable Sidebar Component
+  const SidebarContent = () => (
+    <div className="flex flex-col h-full justify-between p-4 selection:bg-blue-600 selection:text-white">
+      <div className="flex flex-col gap-6">
         
-        {/* Header and Navigation */}
-        <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-[#E4E4E7] pb-6">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-widest font-semibold bg-[#F4602A] text-white shadow-xs">
-                <Sparkles className="w-3 h-3 text-white" />
-                SARVAM AI STUDIO
-              </span>
-              <span className="text-zinc-400 text-xs">•</span>
-              <span className="text-zinc-500 text-xs font-medium">Authentic Regional Roleplays</span>
-            </div>
-            
-            <div className="flex items-center gap-3">
-              <img
-                src="/logo.png"
-                className="w-10 h-10 object-contain drop-shadow-xs transition-transform hover:scale-105"
-                alt="Conversa Logo"
-              />
-              <div className="flex flex-col">
-                <span className="font-brand font-black text-2xl md:text-3xl tracking-tight text-[#18181B] leading-none">
-                  Conversa
-                </span>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#F4602A] mt-1">
-                  Immersion Studio
-                </span>
-              </div>
-            </div>
-            <p className="text-zinc-500 text-sm mt-2 max-w-xl font-normal leading-relaxed">
-              Live roleplay conversations with in-character AI personas. Real-time scenarios, zero distraction, deep coach feedback.
-            </p>
+        {/* Sidebar Brand Header */}
+        <div className="flex items-center gap-3 px-2 pt-2 select-none">
+          <img
+            src="/logo.png"
+            alt="Conversa Logo"
+            className="w-8 h-8 object-contain drop-shadow-xs"
+          />
+          <div className="flex flex-col">
+            <span className="font-brand font-black text-xl tracking-tight text-slate-900 leading-none">
+              Conversa
+            </span>
+            <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-blue-600 mt-0.5">
+              Immersion Studio
+            </span>
           </div>
-          
+        </div>
+
+        {/* Main Navigation Links */}
+        <div className="flex flex-col gap-1">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 px-2 mb-1">
+            Navigation
+          </span>
+
           <button
-            onClick={() => navigate('/history')}
-            className="flex items-center gap-2 text-xs font-semibold text-zinc-700 bg-white hover:bg-zinc-50 border border-[#E4E4E7] hover:border-zinc-300 px-4 py-2.5 rounded-xl transition-all cursor-pointer shadow-2xs"
+            onClick={() => { navigate('/select'); setMobileSidebarOpen(false); }}
+            className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200/80 shadow-2xs cursor-pointer"
           >
-            <History className="w-4 h-4 text-[#F4602A]" />
-            Session History Log
+            <LayoutDashboard className="w-4 h-4 text-blue-600" />
+            <span>Immersion Arenas</span>
           </button>
-        </header>
 
-        {/* Main 2-Column Workspace */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Left Column: Scenario Select Cards (7 cols) */}
-          <div className="lg:col-span-7 flex flex-col gap-4">
-            <div className="flex items-center justify-between px-1 mb-1">
-              <h2 className="text-sm font-extrabold uppercase tracking-wider text-zinc-500 font-mono">
-                Select Immersion Arena ({mockScenarios.length})
-              </h2>
-              <span className="text-xs text-zinc-400 font-mono">Sarvam Neural Voice</span>
-            </div>
+          <button
+            onClick={() => { navigate('/history'); setMobileSidebarOpen(false); }}
+            className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 transition-all cursor-pointer"
+          >
+            <History className="w-4 h-4 text-slate-400" />
+            <span>Session History Log</span>
+          </button>
 
-            <div className="grid grid-cols-1 gap-3.5">
-              {mockScenarios.map((sc) => {
-                const isSelected = selectedScenario?.id === sc.id;
-                
-                return (
-                  <div
-                    key={sc.id}
-                    onClick={() => handleCardClick(sc)}
-                    className={`linear-card rounded-2xl p-5 border transition-all duration-300 cursor-pointer flex flex-col gap-3 relative overflow-hidden ${
-                      isSelected
-                        ? 'bg-white border-[#F4602A] ring-2 ring-orange-500/20 shadow-md transform scale-[1.01]'
-                        : 'bg-white/80 border-[#E4E4E7] hover:border-orange-300 shadow-2xs'
-                    }`}
-                  >
-                    {/* Top Row: Icon + Title + Difficulty Tag */}
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center border shadow-2xs ${
-                          isSelected ? 'bg-orange-50 border-orange-200' : 'bg-zinc-100 border-zinc-200'
-                        }`}>
-                          {getScenarioIcon(sc.id)}
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h3 className="text-base font-extrabold text-[#18181B] tracking-tight m-0">
-                              {sc.name}
-                            </h3>
-                            {isSelected && (
-                              <span className="w-2 h-2 rounded-full bg-[#F4602A] animate-pulse" />
-                            )}
-                          </div>
-                          <span className="text-xs text-zinc-500 block font-normal mt-0.5 flex items-center gap-1">
-                            <MapPin className="w-3 h-3 text-[#F4602A]" />
-                            {sc.description ? sc.description.split('.')[0] : ''}
-                          </span>
-                        </div>
-                      </div>
+          <button
+            onClick={() => { navigate('/debrief'); setMobileSidebarOpen(false); }}
+            className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 transition-all cursor-pointer"
+          >
+            <BarChart3 className="w-4 h-4 text-slate-400" />
+            <span>Performance Analytics</span>
+          </button>
+        </div>
 
-                      {renderDifficultyTag(sc.difficulty)}
-                    </div>
+        {/* Feature Dropdowns / Accordions */}
+        <div className="flex flex-col gap-2 pt-2 border-t border-slate-200/80">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 px-2 mb-1">
+            Studio Features
+          </span>
 
-                    {/* Meta info tags */}
-                    <div className="flex items-center gap-3 pt-2 border-t border-zinc-100 text-xs text-zinc-500">
-                      <span className="flex items-center gap-1.5 font-medium text-zinc-700">
-                        <UserCheck className="w-3.5 h-3.5 text-[#F4602A]" />
-                        {sc.persona?.name || 'Persona'} ({sc.persona?.role || 'Role'})
-                      </span>
-                      <span>•</span>
-                      <span className="font-mono text-[11px] text-zinc-400">
-                        {sc.targetLanguage ? sc.targetLanguage.join(', ') : ''}
-                      </span>
-                    </div>
-
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Right Column: Configuration & Start Studio Box (5 cols) */}
-          <div className="lg:col-span-5 bg-white border border-[#E4E4E7] rounded-3xl p-6 md:p-8 flex flex-col gap-6 shadow-sm sticky top-6">
-            
-            <div className="border-b border-[#E4E4E7] pb-5">
-              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#F4602A] uppercase tracking-wider mb-1">
-                <Activity className="w-4 h-4" />
-                Active Configuration
+          {/* 1. Languages Dropdown */}
+          <div className="rounded-xl border border-slate-200/80 bg-white overflow-hidden shadow-2xs">
+            <button
+              onClick={() => setOpenLanguagesDropdown(!openLanguagesDropdown)}
+              className="w-full flex items-center justify-between p-2.5 text-xs font-semibold text-slate-800 hover:bg-slate-50 transition-all cursor-pointer"
+            >
+              <div className="flex items-center gap-2">
+                <Languages className="w-4 h-4 text-blue-600" />
+                <span>Indian Languages</span>
               </div>
-              <h3 className="text-xl font-extrabold text-[#18181B] tracking-tight">
-                {selectedScenario?.name || 'Scenario'}
-              </h3>
-              <p className="text-xs text-zinc-500 mt-1 leading-relaxed">
-                {selectedScenario?.description || ''}
-              </p>
-            </div>
+              {openLanguagesDropdown ? <ChevronDown className="w-3.5 h-3.5 text-slate-400" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-400" />}
+            </button>
 
-            {/* Target Persona Detail Card */}
-            <div className="bg-[#FAFAFA] border border-[#E4E4E7] rounded-2xl p-4 flex flex-col gap-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#F4602A] text-white flex items-center justify-center font-mono font-bold text-sm shadow-2xs">
-                  {selectedScenario?.persona?.name ? selectedScenario.persona.name.charAt(0) : 'P'}
-                </div>
-                <div>
-                  <h4 className="text-sm font-bold text-[#18181B] leading-none">
-                    {selectedScenario?.persona?.name || 'Persona'}
-                  </h4>
-                  <span className="text-xs text-zinc-500 mt-1 block">
-                    {selectedScenario?.persona?.role || 'Role'}
-                  </span>
-                </div>
-              </div>
-              
-              <div className="text-xs text-zinc-600 bg-white p-3 rounded-xl border border-zinc-200 italic font-normal">
-                "{selectedScenario?.promptGuideline ? selectedScenario.promptGuideline.slice(0, 110) : ''}..."
-              </div>
-            </div>
-
-            {/* Language Selector */}
-            {selectedScenario?.targetLanguage && (
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 font-mono flex items-center justify-between">
-                  <span>Select Immersion Language</span>
-                  <Globe className="w-3.5 h-3.5 text-[#F4602A]" />
-                </label>
-
-                <div className="grid grid-cols-2 gap-2">
-                  {selectedScenario.targetLanguage.map((lang) => {
-                    const isActive = activeLanguage === lang;
-                    return (
-                      <button
-                        key={lang}
-                        onClick={() => setActiveLanguage(lang)}
-                        className={`py-2.5 px-3 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
-                          isActive
-                            ? 'bg-[#F4602A] text-white border-[#F4602A] shadow-xs'
-                            : 'bg-white text-zinc-700 border-[#E4E4E7] hover:border-zinc-300'
-                        }`}
-                      >
-                        {lang}
-                      </button>
-                    );
-                  })}
-                </div>
+            {openLanguagesDropdown && (
+              <div className="px-3 pb-3 pt-1 flex flex-col gap-1.5 bg-slate-50/60 border-t border-slate-100 text-[11px] text-slate-600">
+                <span className="flex items-center justify-between font-medium hover:text-blue-600 cursor-pointer">
+                  <span>🇮🇳 Hindi (Standard & Dialect)</span>
+                  <span className="text-[9px] bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold">10 Scenarios</span>
+                </span>
+                <span className="flex items-center justify-between font-medium hover:text-blue-600 cursor-pointer">
+                  <span>🦁 Gujarati (Ahmedabad)</span>
+                  <span className="text-[9px] bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded font-bold">Active</span>
+                </span>
+                <span className="flex items-center justify-between font-medium hover:text-blue-600 cursor-pointer">
+                  <span>🚩 Marathi (Mumbai)</span>
+                  <span className="text-[9px] bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded font-bold">Active</span>
+                </span>
+                <span className="flex items-center justify-between font-medium hover:text-blue-600 cursor-pointer">
+                  <span>🎨 Bengali & Tamil</span>
+                  <span className="text-[9px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded font-bold">Live STT</span>
+                </span>
               </div>
             )}
+          </div>
 
-            {/* Proficiency Selector */}
-            <div className="flex flex-col gap-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 font-mono">
-                Proficiency Level
-              </label>
+          {/* 2. Personas Dropdown */}
+          <div className="rounded-xl border border-slate-200/80 bg-white overflow-hidden shadow-2xs">
+            <button
+              onClick={() => setOpenPersonasDropdown(!openPersonasDropdown)}
+              className="w-full flex items-center justify-between p-2.5 text-xs font-semibold text-slate-800 hover:bg-slate-50 transition-all cursor-pointer"
+            >
+              <div className="flex items-center gap-2">
+                <UserCheck className="w-4 h-4 text-indigo-600" />
+                <span>AI Personas & Roles</span>
+              </div>
+              {openPersonasDropdown ? <ChevronDown className="w-3.5 h-3.5 text-slate-400" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-400" />}
+            </button>
 
-              <div className="grid grid-cols-3 gap-2">
-                {['Beginner', 'Intermediate', 'Advanced'].map((lvl) => {
-                  const isActive = activeProficiency === lvl;
+            {openPersonasDropdown && (
+              <div className="px-3 pb-3 pt-1 flex flex-col gap-1.5 bg-slate-50/60 border-t border-slate-100 text-[11px] text-slate-600">
+                <span className="font-medium">☕ Karan Bhai (Chai Vendor)</span>
+                <span className="font-medium">🛍️ Ramesh Lal (Shopkeeper)</span>
+                <span className="font-medium">💼 Shruti Hegde (Technical Lead)</span>
+                <span className="font-medium">🛺 Babubhai (Auto Driver)</span>
+              </div>
+            )}
+          </div>
+
+          {/* 3. AI Tools Dropdown */}
+          <div className="rounded-xl border border-slate-200/80 bg-white overflow-hidden shadow-2xs">
+            <button
+              onClick={() => setOpenToolsDropdown(!openToolsDropdown)}
+              className="w-full flex items-center justify-between p-2.5 text-xs font-semibold text-slate-800 hover:bg-slate-50 transition-all cursor-pointer"
+            >
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-amber-500" />
+                <span>Sarvam AI Tools</span>
+              </div>
+              {openToolsDropdown ? <ChevronDown className="w-3.5 h-3.5 text-slate-400" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-400" />}
+            </button>
+
+            {openToolsDropdown && (
+              <div className="px-3 pb-3 pt-1 flex flex-col gap-1.5 bg-slate-50/60 border-t border-slate-100 text-[11px] text-slate-600">
+                <span className="flex items-center gap-1.5 font-medium">
+                  <Mic className="w-3 h-3 text-blue-600" />
+                  <span>Sarvam Voice STT Monitor</span>
+                </span>
+                <span className="flex items-center gap-1.5 font-medium">
+                  <Sliders className="w-3 h-3 text-indigo-600" />
+                  <span>Real-Time Fluency Metric</span>
+                </span>
+              </div>
+            )}
+          </div>
+
+        </div>
+      </div>
+
+      {/* Sidebar Footer User Profile */}
+      <div className="pt-4 border-t border-slate-200/80 flex items-center justify-between px-2">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold text-xs flex items-center justify-center shadow-2xs">
+            U
+          </div>
+          <div className="flex flex-col">
+            <span className="text-xs font-bold text-slate-800 leading-none">Learner Account</span>
+            <span className="text-[10px] text-slate-400 truncate max-w-[110px]">user@conversa.ai</span>
+          </div>
+        </div>
+
+        <button
+          onClick={() => navigate('/')}
+          className="text-slate-400 hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition-all cursor-pointer"
+          title="Sign Out to Login Page"
+        >
+          <LogOut className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+
+  return (
+    <PageTransition>
+      {/* Off-white canvas matching Login Page Aesthetics */}
+      <div className="w-full min-h-screen bg-[#F0F2F5] text-slate-900 flex selection:bg-blue-600 selection:text-white font-sans relative">
+        
+        {/* ========================================================================= */}
+        {/* DESKTOP LEFT SIDEBAR */}
+        {/* ========================================================================= */}
+        <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-slate-200/80 h-screen sticky top-0 shrink-0 shadow-xs z-20">
+          <SidebarContent />
+        </aside>
+
+        {/* ========================================================================= */}
+        {/* MOBILE SIDEBAR DRAWER */}
+        {/* ========================================================================= */}
+        <AnimatePresence>
+          {mobileSidebarOpen && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.5 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setMobileSidebarOpen(false)}
+                className="fixed inset-0 bg-slate-900 z-40 lg:hidden"
+              />
+              <motion.div
+                initial={{ x: '-100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '-100%' }}
+                transition={{ type: 'spring', damping: 25, stiffness: 220 }}
+                className="fixed top-0 left-0 bottom-0 w-72 bg-white z-50 lg:hidden shadow-2xl flex flex-col"
+              >
+                <SidebarContent />
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* ========================================================================= */}
+        {/* MAIN DASHBOARD CONTENT AREA */}
+        {/* ========================================================================= */}
+        <main className="flex-1 flex flex-col p-4 md:p-8 max-w-6xl mx-auto w-full min-h-screen">
+          
+          {/* Header Bar */}
+          <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-5 mb-6">
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setMobileSidebarOpen(true)}
+                className="lg:hidden p-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer"
+              >
+                <Menu className="w-5 h-5" />
+              </button>
+
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-widest font-bold bg-blue-100 text-blue-700 border border-blue-200 shadow-2xs">
+                    <Sparkles className="w-3 h-3 text-blue-600" />
+                    SARVAM AI ENGINE
+                  </span>
+                  <span className="text-slate-300 text-xs">•</span>
+                  <span className="text-slate-500 text-xs font-semibold">10+ Indian Dialects</span>
+                </div>
+                
+                <h1 className="font-brand font-extrabold text-2xl md:text-3xl text-slate-900 tracking-tight">
+                  Immersion Arenas
+                </h1>
+              </div>
+            </div>
+
+            <button
+              onClick={() => navigate('/history')}
+              className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 px-4 py-2.5 rounded-xl transition-all cursor-pointer shadow-2xs"
+            >
+              <History className="w-4 h-4 text-blue-600" />
+              <span>Session History Log</span>
+            </button>
+          </header>
+
+          {/* Workspace Grid Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            
+            {/* Left Column: Scenario Cards List (7 cols) */}
+            <div className="lg:col-span-7 flex flex-col gap-4">
+              <div className="flex items-center justify-between px-1">
+                <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500">
+                  Select Scenario ({mockScenarios.length})
+                </h2>
+                <span className="text-xs text-slate-400 font-mono">Sarvam Speech Neural Voice</span>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3.5">
+                {mockScenarios.map((sc) => {
+                  const isSelected = selectedScenario?.id === sc.id;
+                  
                   return (
-                    <button
-                      key={lvl}
-                      onClick={() => setActiveProficiency(lvl)}
-                      className={`py-2 px-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-center ${
-                        isActive
-                          ? 'bg-[#F4602A] text-white border-[#F4602A] shadow-xs'
-                          : 'bg-white text-zinc-700 border-[#E4E4E7] hover:border-zinc-300'
+                    <div
+                      key={sc.id}
+                      onClick={() => handleCardClick(sc)}
+                      className={`rounded-2xl p-5 border transition-all duration-300 cursor-pointer flex flex-col gap-3 relative overflow-hidden ${
+                        isSelected
+                          ? 'bg-white border-blue-500 ring-2 ring-blue-500/20 shadow-md transform scale-[1.01]'
+                          : 'bg-white/90 border-slate-200/80 hover:border-blue-300 hover:bg-white shadow-2xs'
                       }`}
                     >
-                      {lvl}
-                    </button>
+                      {/* Top Row: Icon + Title + Difficulty Tag */}
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center border shadow-2xs ${
+                            isSelected ? 'bg-blue-50 border-blue-200' : 'bg-slate-100 border-slate-200'
+                          }`}>
+                            {getScenarioIcon(sc.id)}
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h3 className="text-base font-extrabold text-slate-900 tracking-tight m-0">
+                                {sc.name}
+                              </h3>
+                              {isSelected && (
+                                <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+                              )}
+                            </div>
+                            <span className="text-xs text-slate-500 font-medium block mt-0.5 flex items-center gap-1">
+                              <MapPin className="w-3 h-3 text-blue-600 shrink-0" />
+                              {sc.description ? sc.description.split('.')[0] : ''}
+                            </span>
+                          </div>
+                        </div>
+
+                        {renderDifficultyTag(sc.difficulty)}
+                      </div>
+
+                      {/* Meta Info */}
+                      <div className="flex items-center gap-3 pt-2.5 border-t border-slate-100 text-xs text-slate-500">
+                        <span className="flex items-center gap-1.5 font-semibold text-slate-700">
+                          <UserCheck className="w-3.5 h-3.5 text-blue-600" />
+                          {sc.persona?.name || 'Persona'} ({sc.persona?.role || 'Role'})
+                        </span>
+                        <span>•</span>
+                        <span className="font-mono text-[11px] text-slate-400 font-medium">
+                          {sc.targetLanguage ? sc.targetLanguage.join(', ') : ''}
+                        </span>
+                      </div>
+
+                    </div>
                   );
                 })}
               </div>
             </div>
 
-            {/* START IMMERSION STUDIO BUTTON */}
-            <button
-              onClick={handleStartSession}
-              className="w-full bg-[#F4602A] hover:bg-[#d95222] text-white font-bold text-xs uppercase tracking-wider py-4 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 mt-2 group"
-            >
-              <Play className="w-4 h-4 fill-current group-hover:scale-110 transition-transform" />
-              Start Immersion Studio
-            </button>
+            {/* Right Column: Configuration & Start Studio Box (5 cols) */}
+            <div className="lg:col-span-5 bg-white border border-slate-200/80 rounded-3xl p-6 md:p-7 flex flex-col gap-5 shadow-sm sticky top-6">
+              
+              <div className="border-b border-slate-200/80 pb-4">
+                <div className="flex items-center gap-2 text-xs font-mono font-bold text-blue-600 uppercase tracking-wider mb-1">
+                  <Activity className="w-4 h-4" />
+                  Active Configuration
+                </div>
+                <h3 className="font-brand text-xl font-extrabold text-slate-900 tracking-tight">
+                  {selectedScenario?.name || 'Scenario'}
+                </h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                  {selectedScenario?.description || ''}
+                </p>
+              </div>
 
-            {/* Footer Assurance */}
-            <div className="flex items-center justify-center gap-2 text-[11px] text-zinc-400 font-mono">
-              <Shield className="w-3.5 h-3.5 text-[#F4602A]" />
-              <span>Real-Time Voice STT • Sarvam AI Powered</span>
+              {/* Target Persona Detail Card */}
+              <div className="bg-[#F8FAFC] border border-slate-200/80 rounded-2xl p-4 flex flex-col gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-700 text-white flex items-center justify-center font-bold text-sm shadow-2xs">
+                    {selectedScenario?.persona?.name ? selectedScenario.persona.name.charAt(0) : 'P'}
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-900 leading-none">
+                      {selectedScenario?.persona?.name || 'Persona'}
+                    </h4>
+                    <span className="text-xs text-slate-500 mt-1 block">
+                      {selectedScenario?.persona?.role || 'Role'}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="text-xs text-slate-600 bg-white p-3 rounded-xl border border-slate-200/80 italic font-normal">
+                  "{selectedScenario?.promptGuideline ? selectedScenario.promptGuideline.slice(0, 110) : ''}..."
+                </div>
+              </div>
+
+              {/* Language Selector */}
+              {selectedScenario?.targetLanguage && (
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 font-mono flex items-center justify-between">
+                    <span>Select Immersion Language</span>
+                    <Globe className="w-3.5 h-3.5 text-blue-600" />
+                  </label>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    {selectedScenario.targetLanguage.map((lang) => {
+                      const isActive = activeLanguage === lang;
+                      return (
+                        <button
+                          key={lang}
+                          onClick={() => setActiveLanguage(lang)}
+                          className={`py-2.5 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
+                            isActive
+                              ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+                              : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                          }`}
+                        >
+                          {lang}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Proficiency Selector */}
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-500 font-mono">
+                  Proficiency Level
+                </label>
+
+                <div className="grid grid-cols-3 gap-2">
+                  {['Beginner', 'Intermediate', 'Advanced'].map((lvl) => {
+                    const isActive = activeProficiency === lvl;
+                    return (
+                      <button
+                        key={lvl}
+                        onClick={() => setActiveProficiency(lvl)}
+                        className={`py-2 px-2 rounded-xl text-xs font-bold border transition-all cursor-pointer text-center ${
+                          isActive
+                            ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+                            : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        {lvl}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* START IMMERSION STUDIO BUTTON */}
+              <button
+                onClick={handleStartSession}
+                className="w-full bg-gradient-to-r from-[#3B82F6] via-[#2563EB] to-[#1D4ED8] hover:from-blue-600 hover:to-indigo-800 text-white font-bold text-xs uppercase tracking-wider py-4 rounded-full shadow-lg shadow-blue-500/25 hover:shadow-blue-500/35 transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 mt-2 group"
+              >
+                <Play className="w-4 h-4 fill-current group-hover:scale-110 transition-transform" />
+                Start Immersion Studio
+              </button>
             </div>
 
           </div>
-
-        </div>
-
-        {/* Mobile Bottom Sheet Drawer overlay */}
-        <AnimatePresence>
-          {selectedScenario && (
-            <>
-              {/* Overlay Backdrop */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.5 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setSelectedScenario(null)}
-                className="fixed inset-0 bg-black z-40 lg:hidden"
-              />
-
-              {/* Bottom Sheet Card */}
-              <motion.div
-                initial={{ y: '100%' }}
-                animate={{ y: 0 }}
-                exit={{ y: '100%' }}
-                transition={{ type: 'spring', damping: 26, stiffness: 220 }}
-                className="fixed bottom-0 left-0 right-0 z-50 bg-zinc-900 border-t border-white/10 rounded-t-3xl p-6 lg:hidden max-h-[85vh] overflow-y-auto shadow-2xl flex flex-col gap-5"
-              >
-                {/* Drag Handle indicator */}
-                <div className="w-12 h-1.5 bg-zinc-800 rounded-full mx-auto cursor-pointer mb-2 shrink-0" onClick={() => setSelectedScenario(null)} />
-                
-                <div className="flex items-center justify-between border-b border-white/5 pb-3">
-                  <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-400">
-                    Session Configuration
-                  </h2>
-                  <button 
-                    onClick={() => setSelectedScenario(null)}
-                    className="text-xs text-zinc-500 hover:text-zinc-300 font-semibold"
-                  >
-                    Close
-                  </button>
-                </div>
-
-                {/* Persona Details */}
-                <div className="flex flex-col gap-1.5">
-                  <span className="text-[10px] uppercase font-semibold text-zinc-500">Selected Persona</span>
-                  <div className="bg-zinc-950/40 rounded-xl border border-white/5 p-4 flex flex-col gap-1 shadow-inner">
-                    <span className="text-sm font-bold text-white">{selectedScenario.persona.name}</span>
-                    <p className="text-xs text-zinc-400 leading-relaxed italic">
-                      "{selectedScenario.persona.bio}"
-                    </p>
-                  </div>
-                </div>
-
-                {/* Target Language Select */}
-                <div className="flex flex-col gap-2.5">
-                  <span className="text-[10px] uppercase font-semibold text-zinc-500 flex items-center gap-1.5">
-                    <Globe className="w-3.5 h-3.5 text-indigo-400" />
-                    Target Language
-                  </span>
-                  <div className="flex gap-2">
-                    {selectedScenario.targetLanguage.map((lang) => (
-                      <button
-                        key={lang}
-                        onClick={() => setActiveLanguage(lang as TargetLanguage)}
-                        className={`flex-1 font-semibold text-xs py-2.5 rounded-xl border transition-all duration-300 cursor-pointer ${
-                          activeLanguage === lang
-                            ? 'bg-indigo-500 border-indigo-400 text-white shadow-lg shadow-indigo-500/10'
-                            : 'bg-zinc-950 border-white/5 text-zinc-400 hover:text-zinc-200'
-                        }`}
-                      >
-                        {lang}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Target Proficiency */}
-                <div className="flex flex-col gap-2.5">
-                  <span className="text-[10px] uppercase font-semibold text-zinc-500 flex items-center gap-1.5">
-                    <Shield className="w-3.5 h-3.5 text-indigo-400" />
-                    Your Skill Level
-                  </span>
-                  <div className="flex flex-col gap-2">
-                    {['Beginner', 'Intermediate', 'Advanced'].map((level) => (
-                      <button
-                        key={level}
-                        onClick={() => setActiveProficiency(level)}
-                        className={`text-xs font-semibold text-left px-4 py-3 rounded-xl border transition-all duration-300 flex items-center justify-between cursor-pointer ${
-                          activeProficiency === level
-                            ? 'bg-white/[0.04] border-indigo-500/70 text-white'
-                            : 'bg-zinc-950 border-white/5 text-zinc-400 hover:text-zinc-200'
-                        }`}
-                      >
-                        {level}
-                        {activeProficiency === level && (
-                          <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 shadow-[0_0_6px_rgba(99,102,241,0.8)] animate-pulse" />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Launch Button */}
-                <button
-                  onClick={handleLaunch}
-                  className="w-full bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 text-white font-semibold text-xs uppercase tracking-widest py-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:shadow-indigo-500/20 active:scale-[0.98] transition-all mt-2 shrink-0"
-                >
-                  <Play className="w-4 h-4 fill-white" />
-                  Launch Session
-                </button>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
+        </main>
 
       </div>
     </PageTransition>
